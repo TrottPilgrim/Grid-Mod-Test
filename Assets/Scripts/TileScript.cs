@@ -5,7 +5,7 @@ using UnityEngine;
 public class TileScript : MonoBehaviour
 {
     public int type;
-    public Color[] tileColors = 
+    /* public Color[] tileColors = 
     {
         Color.red,
         new Color(0.96f, 0.63f, 0f, 1.0f), // Orange
@@ -13,7 +13,10 @@ public class TileScript : MonoBehaviour
         Color.green,
         Color.blue,
         new Color(0.65f, 0f, 0.96f, 1.0f) // Violet
-    };
+    }; */
+
+    public Sprite[] tileColors;
+
     public Vector3 startPosition;
     public Vector3 destPosition;
     private bool inSlide = false;
@@ -34,7 +37,7 @@ public class TileScript : MonoBehaviour
         type = rand;
         //GetComponent<SpriteRenderer>().sprite = tileSprites[type];
         if (rand >= 0)
-            GetComponent<SpriteRenderer>().color = tileColors[type];
+            GetComponent<SpriteRenderer>().sprite = tileColors[type];
     }
 
     public bool IsMatch(GameObject gameObject1, GameObject gameObject2){

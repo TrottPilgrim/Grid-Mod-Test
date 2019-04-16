@@ -242,7 +242,7 @@ public class GridManager : MonoBehaviour
             //Update the x position and y position of the player.
             playerScript.xPos -= hozMove;
             playerScript.yPos -= verMove;
-            playerScript.gameObject.SendMessage("decrementTurns");
+            //playerScript.gameObject.SendMessage("decrementTurns");
         }
     }
 }
