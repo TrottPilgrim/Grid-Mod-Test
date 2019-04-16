@@ -39,7 +39,7 @@ public class PlayerScript : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                Debug.Log("hi");
+                //Debug.Log("hi");
                 Rotate();
             }
         }
@@ -77,16 +77,18 @@ public class PlayerScript : MonoBehaviour
         /*
          * (0, 0), (0, 1), (1, 1), (1, 0)
          */
-        Debug.Log("old type:" + gm.tiles[tempX, tempY].GetComponent<TileScript>().type);
-        gm.tiles[tempX, tempY] = gm.tiles[tempX + 1, tempY];
-        Debug.Log("new type:" + gm.tiles[tempX, tempY].GetComponent<TileScript>().type);
+        Debug.Log("" + tempX + "," + tempY + " swaps with " + (tempX + 1) + "," + tempY);
         gm.tiles[tempX, tempY].transform.localPosition = gm.tiles[tempX + 1, tempY].transform.localPosition;
-        gm.tiles[tempX + 1, tempY] = gm.tiles[tempX + 1, tempY + 1];
+        gm.tiles[tempX, tempY] = gm.tiles[tempX + 1, tempY];
+        
         gm.tiles[tempX + 1, tempY].transform.localPosition = gm.tiles[tempX + 1, tempY + 1].transform.localPosition;
-        gm.tiles[tempX + 1, tempY + 1] = gm.tiles[tempX, tempY + 1];
+        gm.tiles[tempX + 1, tempY] = gm.tiles[tempX + 1, tempY + 1];
+        
         gm.tiles[tempX + 1, tempY + 1].transform.localPosition = gm.tiles[tempX, tempY + 1].transform.localPosition;
-        gm.tiles[tempX, tempY + 1] = temp;
+        gm.tiles[tempX + 1, tempY + 1] = gm.tiles[tempX, tempY + 1];
+        
         gm.tiles[tempX, tempY + 1].transform.localPosition = tempPos;
+        gm.tiles[tempX, tempY + 1] = temp;
 
 
     }

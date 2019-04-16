@@ -9,7 +9,7 @@ public class GridManager : MonoBehaviour
     public GameObject[,] tiles;
     public GameObject tilePrefab;
     public GameObject playerFab;
-    public const int WIDTH = 5;
+    public const int WIDTH = 7;
     public const int HEIGHT = 7;
 
     public const float xOffset = WIDTH / 2f - 0.5f;
@@ -80,22 +80,22 @@ public class GridManager : MonoBehaviour
     
     void Update()
     {
-        if (slideLerp < 0 && !Repopulate() && HasMatch()){
-            RemoveMatches();
-        }
-        else if (slideLerp >= 0)
-        {
-            slideLerp += Time.deltaTime / lerpSpeed;
-            // Debug.Log(Time.deltaTime + " " + slideLerp + " Lerp speed: " + lerpSpeed);
-
-            if (slideLerp >= 1)
-                slideLerp = -1;
-        }
-        // else if (Input.anyKeyDown){
-        //     MovePlayer();
+        // if (slideLerp < 0 && !Repopulate() && HasMatch()){
+        //     RemoveMatches();
         // }
-        else if (playerScript.turnsRemaining == 0)
-            playerScript.gameObject.SendMessage("EndGame");
+        // else if (slideLerp >= 0)
+        // {
+        //     slideLerp += Time.deltaTime / lerpSpeed;
+        //     // Debug.Log(Time.deltaTime + " " + slideLerp + " Lerp speed: " + lerpSpeed);
+
+        //     if (slideLerp >= 1)
+        //         slideLerp = -1;
+        // }
+        // // else if (Input.anyKeyDown){
+        // //     MovePlayer();
+        // // }
+        // else if (playerScript.turnsRemaining == 0)
+        //     playerScript.gameObject.SendMessage("EndGame");
     }
     //Hasmatch returns an object that has a matching object vertically or horizontally
     public TileScript HasMatch(){
