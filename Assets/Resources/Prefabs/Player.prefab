@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2497258507489468006}
   - component: {fileID: 9164501592548618111}
-  - component: {fileID: 2816716487618268957}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -47,28 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnsRemaining: 0
-  xPos: 0
-  yPos: 0
---- !u!114 &2816716487618268957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497258507489468004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24792ad89d332ad46a0de5d59ab293c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  tileColors:
-  - {fileID: 21300000, guid: 04df5df6fc2e6f543b98ec69a44159d0, type: 3}
-  - {fileID: 21300000, guid: ee5366e5f6690f74fa76a9aaa79f5288, type: 3}
-  - {fileID: 21300000, guid: 4f86b899ef1b3d94388fccf8b534cef8, type: 3}
-  - {fileID: 21300000, guid: f12df2b4964c76f4b9900c54d46d5d42, type: 3}
-  startPosition: {x: 0, y: 0, z: 0}
-  destPosition: {x: 0, y: 0, z: 0}
+  playerPos: {x: 0, y: 0}
+  gm: {fileID: 0}
 --- !u!1 &2636552199810525290
 GameObject:
   m_ObjectHideFlags: 0

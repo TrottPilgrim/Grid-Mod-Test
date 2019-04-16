@@ -12,8 +12,8 @@ public class GridManager : MonoBehaviour
     public const int WIDTH = 5;
     public const int HEIGHT = 7;
 
-    float xOffset = WIDTH / 2f - 0.5f;
-    float yOffset = HEIGHT / 2f - 0.5f;
+    public const float xOffset = WIDTH / 2f - 0.5f;
+    public const float yOffset = HEIGHT / 2f - 0.5f;
 
     GameObject gridHolder;
     PlayerScript playerScript;
@@ -40,7 +40,7 @@ public class GridManager : MonoBehaviour
         for (int i = 0; i < WIDTH; i++){
             for (int j = 0; j < HEIGHT; j++){
                 GameObject newTile = Instantiate(tilePrefab);
-                //newTile.name = i + "," + j;
+                newTile.name = i + "," + j;
                 newTile.transform.parent = gridHolder.transform;
 
                 //WHY does this matrix go from upper right to bottom left. Is this supposed to happen?
@@ -62,19 +62,19 @@ public class GridManager : MonoBehaviour
         }
         
         //Initializing the player object - This is a mess.
-        int playerInitXPos = WIDTH / 2;
-        int playerInitYPos = HEIGHT / 2;
+        // int playerInitXPos = WIDTH / 2;
+        // int playerInitYPos = HEIGHT / 2;
         GameObject player = Instantiate(playerFab);
-        TileScript playerTile = player.GetComponent<TileScript>();
+        //TileScript playerTile = player.GetComponent<TileScript>();
         playerScript = player.GetComponent<PlayerScript>();
         player.transform.parent = gridHolder.transform;
-        Vector2 playerStartPos = tiles[playerInitXPos, playerInitYPos].transform.localPosition;
-        Destroy(tiles[playerInitXPos, playerInitYPos]);
-        player.transform.localPosition = playerStartPos;
-        tiles[playerInitXPos, playerInitYPos] = player;
-        playerScript.xPos = playerInitXPos;
-        playerScript.yPos = playerInitYPos;
-        playerTile.SetSprite(-1);
+        // Vector2 playerStartPos = tiles[playerInitXPos, playerInitYPos].transform.localPosition;
+        // Destroy(tiles[playerInitXPos, playerInitYPos]);
+        player.transform.localPosition = new Vector2(WIDTH - xOffset, HEIGHT - yOffset);
+        // tiles[playerInitXPos, playerInitYPos] = player;
+        // playerScript.xPos = playerInitXPos;
+        // playerScript.yPos = playerInitYPos;
+        //playerTile.SetSprite(-1);
     }
 
     
@@ -91,9 +91,9 @@ public class GridManager : MonoBehaviour
             if (slideLerp >= 1)
                 slideLerp = -1;
         }
-        else if (Input.anyKeyDown){
-            MovePlayer();
-        }
+        // else if (Input.anyKeyDown){
+        //     MovePlayer();
+        // }
         else if (playerScript.turnsRemaining == 0)
             playerScript.gameObject.SendMessage("EndGame");
     }
@@ -161,7 +161,7 @@ public class GridManager : MonoBehaviour
                         Destroy(tiles[x, y + 1]);
                         Destroy(tiles[x, y + 2]);
                         scoreText.text = "SCORE: " + score;
-                        playerScript.resetTurns(6);
+                        //playerScript.resetTurns(6);
                     }
                 }
             }
@@ -180,6 +180,7 @@ public class GridManager : MonoBehaviour
                     if (y == 0){
                         //If so, make a token
                         tiles[x, y] = Instantiate(tilePrefab);
+                        tiles[x, y].name = x + "," + y;
                         TileScript tileScript = tiles[x, y].GetComponent<TileScript>();
                         tileScript.SetSprite(Random.Range(0, tileScript.tileColors.Length));
                         tiles[x, y].transform.parent = gridHolder.transform;
@@ -196,12 +197,12 @@ public class GridManager : MonoBehaviour
                             //tiles[x, y].transform.localPosition = Vector3.Lerp(tileScript.startPosition, tileScript.destPosition, lerpSpeed);
                         }
                         //Changes the PlayerScript xPos and yPos to the position it lerps down to
-                        if (tileScript.type == -1){
-                            PlayerScript temp2 = tileScript.GetComponentInParent<PlayerScript>();
-                            temp2.xPos = x;
-                            temp2.yPos = y;
-                            //Debug.Log(temp2.xPos + " " + temp2.yPos);
-                        }
+                        // if (tileScript.type == -1){
+                        //     PlayerScript temp2 = tileScript.GetComponentInParent<PlayerScript>();
+                        //     temp2.xPos = x;
+                        //     temp2.yPos = y;
+                        //     //Debug.Log(temp2.xPos + " " + temp2.yPos);
+                        // }
                     }
                 }
             }
@@ -209,7 +210,7 @@ public class GridManager : MonoBehaviour
         return repop;
     }
 
-    void MovePlayer(){
+    /* void MovePlayer(){
         int hozMove = (int) Input.GetAxisRaw("Horizontal");
         int verMove = (int) Input.GetAxisRaw("Vertical");
         if (hozMove != 0)
@@ -244,5 +245,5 @@ public class GridManager : MonoBehaviour
             playerScript.yPos -= verMove;
             //playerScript.gameObject.SendMessage("decrementTurns");
         }
-    }
+    } */
 }
