@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour
 {
     //public static GridManager Instance;
-    public GameObject[,] tiles;
+    public static GameObject[,] tiles;
     public GameObject tilePrefab;
     public GameObject playerFab;
-    public const int WIDTH = 5;
+    public const int WIDTH = 7;
     public const int HEIGHT = 7;
 
     public const float xOffset = WIDTH / 2f - 0.5f;
@@ -208,6 +209,22 @@ public class GridManager : MonoBehaviour
             }
         }
         return repop;
+    }
+
+    public override string ToString()
+    {
+        Debug.Log("matrix: ");
+        for (int y = 0 ; y < HEIGHT; y++)
+        
+        {
+            StringBuilder line = new StringBuilder();
+            for (int x = WIDTH - 1; x >= 0; x--)
+            {
+                line.Append(tiles[x, y].GetComponent<TileScript>().type + "\t");
+            }
+            Debug.Log(line + "\n");
+        }
+        return "";
     }
 
     /* void MovePlayer(){

@@ -39,7 +39,7 @@ public class PlayerScript : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                Debug.Log("hi");
+                // Debug.Log("hi");
                 Rotate();
             }
         }
@@ -72,21 +72,33 @@ public class PlayerScript : MonoBehaviour
         //The player is anchored on this block
         int tempX = (int) playerPos.x;
         int tempY = (int) playerPos.y;
-        GameObject temp = gm.tiles[tempX, tempY];
-        Vector2 tempPos = gm.tiles[tempX, tempY].transform.localPosition;
+        Debug.Log(tempX + " " + tempY);
+        GameObject temp = GridManager.tiles[tempX, tempY];
+        // Vector2 tempPos = GridManager.tiles[tempX, tempY].transform.localPosition;
         /*
          * (0, 0), (0, 1), (1, 1), (1, 0)
+         * (0, 0) <- (1, 0)
+         * (1, 0) <- (1, 1)
+         * (1, 1) <- (0, 1)
+         * (0, 1) <- (0, 0)
          */
-        Debug.Log("old type:" + gm.tiles[tempX, tempY].GetComponent<TileScript>().type);
-        gm.tiles[tempX, tempY] = gm.tiles[tempX + 1, tempY];
-        Debug.Log("new type:" + gm.tiles[tempX, tempY].GetComponent<TileScript>().type);
-        gm.tiles[tempX, tempY].transform.localPosition = gm.tiles[tempX + 1, tempY].transform.localPosition;
-        gm.tiles[tempX + 1, tempY] = gm.tiles[tempX + 1, tempY + 1];
-        gm.tiles[tempX + 1, tempY].transform.localPosition = gm.tiles[tempX + 1, tempY + 1].transform.localPosition;
-        gm.tiles[tempX + 1, tempY + 1] = gm.tiles[tempX, tempY + 1];
-        gm.tiles[tempX + 1, tempY + 1].transform.localPosition = gm.tiles[tempX, tempY + 1].transform.localPosition;
-        gm.tiles[tempX, tempY + 1] = temp;
-        gm.tiles[tempX, tempY + 1].transform.localPosition = tempPos;
+
+        // GridManager.tiles[tempX, tempY].transform.localPosition = GridManager.tiles[tempX + 1, tempY].transform.localPosition;
+        // GridManager.tiles[tempX + 1, tempY].transform.localPosition = GridManager.tiles[tempX + 1, tempY + 1].transform.localPosition;
+        // GridManager.tiles[tempX + 1, tempY + 1].transform.localPosition = GridManager.tiles[tempX, tempY + 1].transform.localPosition;
+        // GridManager.tiles[tempX, tempY + 1].transform.localPosition = tempPos;
+        SwapTransformHelper(GridManager.tiles[tempX, tempY], GridManager.tiles[tempX, tempY + 1]);
+        SwapTransformHelper(GridManager.tiles[tempX + 1, tempY], GridManager.tiles[tempX + 1, tempY + 1]);
+        SwapTransformHelper(GridManager.tiles[tempX + 1, tempY], GridManager.tiles[tempX, tempY + 1]);
+
+
+        GridManager.tiles[tempX, tempY] = GridManager.tiles[tempX + 1, tempY];
+        GridManager.tiles[tempX + 1, tempY] = GridManager.tiles[tempX + 1, tempY + 1];
+        GridManager.tiles[tempX + 1, tempY + 1] = GridManager.tiles[tempX, tempY + 1];
+        GridManager.tiles[tempX, tempY + 1] = temp;
+
+        
+        gm.ToString();
 
 
     }
@@ -100,5 +112,11 @@ public class PlayerScript : MonoBehaviour
     public void EndGame(){
         Debug.Log("Game over!");
         SceneManager.LoadScene("EndScreen");
+    }
+
+    void SwapTransformHelper(GameObject g1, GameObject g2) {
+        Vector2 g1Pos = g1.transform.localPosition;
+        g1.transform.localPosition = g2.transform.localPosition;
+        g2.transform.localPosition = g1Pos;
     }
 }
