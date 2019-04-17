@@ -40,7 +40,12 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 // Debug.Log("hi");
-                Rotate();
+                RotateCW();
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                // Debug.Log("hi");
+                RotateCCW();
             }
         }
     }
@@ -67,12 +72,12 @@ public class PlayerScript : MonoBehaviour
         //turnsText.text = "" + turnsRemaining;
     }
 
-    void Rotate()
+    void RotateCW()
     {   
         //The player is anchored on this block
         int tempX = (int) playerPos.x;
         int tempY = (int) playerPos.y;
-        Debug.Log(tempX + " " + tempY);
+        // Debug.Log(tempX + " " + tempY);
         GameObject temp = GridManager.tiles[tempX, tempY];
         // Vector2 tempPos = GridManager.tiles[tempX, tempY].transform.localPosition;
         /*
@@ -87,9 +92,13 @@ public class PlayerScript : MonoBehaviour
         // GridManager.tiles[tempX + 1, tempY].transform.localPosition = GridManager.tiles[tempX + 1, tempY + 1].transform.localPosition;
         // GridManager.tiles[tempX + 1, tempY + 1].transform.localPosition = GridManager.tiles[tempX, tempY + 1].transform.localPosition;
         // GridManager.tiles[tempX, tempY + 1].transform.localPosition = tempPos;
-        SwapTransformHelper(GridManager.tiles[tempX, tempY], GridManager.tiles[tempX, tempY + 1]);
-        SwapTransformHelper(GridManager.tiles[tempX + 1, tempY], GridManager.tiles[tempX + 1, tempY + 1]);
-        SwapTransformHelper(GridManager.tiles[tempX + 1, tempY], GridManager.tiles[tempX, tempY + 1]);
+        // SwapTransformHelper(GridManager.tiles[tempX, tempY], GridManager.tiles[tempX, tempY + 1]);
+        // SwapTransformHelper(GridManager.tiles[tempX + 1, tempY], GridManager.tiles[tempX + 1, tempY + 1]);
+        // SwapTransformHelper(GridManager.tiles[tempX + 1, tempY], GridManager.tiles[tempX, tempY + 1]);
+        LerpRotate(GridManager.tiles[tempX, tempY], 
+                GridManager.tiles[tempX, tempY + 1], 
+                GridManager.tiles[tempX + 1, tempY + 1], 
+                GridManager.tiles[tempX + 1, tempY], "cw");
 
 
         GridManager.tiles[tempX, tempY] = GridManager.tiles[tempX + 1, tempY];
@@ -98,7 +107,31 @@ public class PlayerScript : MonoBehaviour
         GridManager.tiles[tempX, tempY + 1] = temp;
 
         
-        gm.ToString();
+        //gm.ToString();
+
+
+    }
+
+    void RotateCCW()
+    {   
+        //The player is anchored on this block
+        int tempX = (int) playerPos.x;
+        int tempY = (int) playerPos.y;
+        GameObject temp = GridManager.tiles[tempX, tempY];
+        
+        LerpRotate(GridManager.tiles[tempX, tempY], 
+                GridManager.tiles[tempX, tempY + 1], 
+                GridManager.tiles[tempX + 1, tempY + 1], 
+                GridManager.tiles[tempX + 1, tempY], "rcw");
+
+
+        GridManager.tiles[tempX, tempY] = GridManager.tiles[tempX, tempY + 1];
+        GridManager.tiles[tempX, tempY + 1] = GridManager.tiles[tempX + 1, tempY + 1];
+        GridManager.tiles[tempX + 1, tempY + 1] = GridManager.tiles[tempX + 1, tempY];
+        GridManager.tiles[tempX + 1, tempY] = temp;
+
+        
+        //gm.ToString();
 
 
     }
@@ -115,8 +148,38 @@ public class PlayerScript : MonoBehaviour
     }
 
     void SwapTransformHelper(GameObject g1, GameObject g2) {
-        Vector2 g1Pos = g1.transform.localPosition;
-        g1.transform.localPosition = g2.transform.localPosition;
-        g2.transform.localPosition = g1Pos;
+        // Vector2 g1Pos = g1.transform.localPosition;
+        // g1.transform.localPosition = g2.transform.localPosition;
+        // g2.transform.localPosition = g1Pos;
+        TileScript ts1 = g1.GetComponent<TileScript>();
+        TileScript ts2 = g2.GetComponent<TileScript>();
+        GridManager.slideLerp = 0;
+        ts1.SetupSlide(g2.transform.localPosition);
+        ts2.SetupSlide(g1.transform.localPosition);
+    }
+
+    // g1 is UR, g2 is BR, g3 is LR, g4 is UR
+    void LerpRotate(GameObject g1, GameObject g2, GameObject g3, GameObject g4, string d){
+        TileScript ts1 = g1.GetComponent<TileScript>();
+        TileScript ts2 = g2.GetComponent<TileScript>();
+        TileScript ts3 = g3.GetComponent<TileScript>();
+        TileScript ts4 = g4.GetComponent<TileScript>();
+        Vector2 temp = g1.transform.localPosition;
+        GridManager.slideLerp = 0.3f;
+        if (string.Equals(d, "cw"))
+        {
+            ts1.SetupSlide(g2.transform.localPosition);
+            ts2.SetupSlide(g3.transform.localPosition);
+            ts3.SetupSlide(g4.transform.localPosition);
+            ts4.SetupSlide(temp);
+        }
+        else
+        {
+            ts1.SetupSlide(g4.transform.localPosition);
+            ts2.SetupSlide(temp);
+            ts3.SetupSlide(g2.transform.localPosition);
+            ts4.SetupSlide(g3.transform.localPosition);
+        }
+        //gm.ToString();
     }
 }

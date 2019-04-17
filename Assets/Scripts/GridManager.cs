@@ -31,9 +31,8 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
-        //Instance = this;
         lerpSpeed = 0.25f;
-        // Debug.Log("Lerp speed is: " + lerpSpeed);
+        
         tiles = new GameObject[WIDTH, HEIGHT];
         gridHolder = new GameObject();
         gridHolder.transform.position = new Vector3(-1f, -0.5f, 0);
@@ -62,20 +61,11 @@ public class GridManager : MonoBehaviour
             temp.SetSprite(Random.Range(0, temp.tileColors.Length));
         }
         
-        //Initializing the player object - This is a mess.
-        // int playerInitXPos = WIDTH / 2;
-        // int playerInitYPos = HEIGHT / 2;
+        //Initializing the player object
         GameObject player = Instantiate(playerFab);
-        //TileScript playerTile = player.GetComponent<TileScript>();
         playerScript = player.GetComponent<PlayerScript>();
         player.transform.parent = gridHolder.transform;
-        // Vector2 playerStartPos = tiles[playerInitXPos, playerInitYPos].transform.localPosition;
-        // Destroy(tiles[playerInitXPos, playerInitYPos]);
         player.transform.localPosition = new Vector2(WIDTH - xOffset, HEIGHT - yOffset);
-        // tiles[playerInitXPos, playerInitYPos] = player;
-        // playerScript.xPos = playerInitXPos;
-        // playerScript.yPos = playerInitYPos;
-        //playerTile.SetSprite(-1);
     }
 
     
@@ -87,16 +77,12 @@ public class GridManager : MonoBehaviour
         else if (slideLerp >= 0)
         {
             slideLerp += Time.deltaTime / lerpSpeed;
+            Debug.Log(slideLerp);
             // Debug.Log(Time.deltaTime + " " + slideLerp + " Lerp speed: " + lerpSpeed);
 
             if (slideLerp >= 1)
                 slideLerp = -1;
         }
-        // else if (Input.anyKeyDown){
-        //     MovePlayer();
-        // }
-        else if (playerScript.turnsRemaining == 0)
-            playerScript.gameObject.SendMessage("EndGame");
     }
     //Hasmatch returns an object that has a matching object vertically or horizontally
     public TileScript HasMatch(){
@@ -121,13 +107,6 @@ public class GridManager : MonoBehaviour
                 if (temp is object){
                     if (x < WIDTH - 2 && temp.IsMatch(tiles[x + 1, y], tiles[x + 2, y]))
                     {
-                        //emit particles
-                        // emitParams.position = tiles[x,y].transform.position;
-                        // explosion.Emit(emitParams, 10);
-                        // emitParams.position = tiles[x + 1, y].transform.position;
-                        // explosion.Emit(emitParams, 10);
-                        // emitParams.position = tiles[x + 2, y].transform.position;
-                        // explosion.Emit(emitParams, 10);
                         explosion1.transform.position = tiles[x, y].transform.position;
                         explosion1.Play();
                         explosion2.transform.position = tiles[x + 1, y].transform.position;
@@ -144,12 +123,6 @@ public class GridManager : MonoBehaviour
                     }
                     if (y < HEIGHT - 2 && temp.IsMatch(tiles[x, y + 1], tiles[x, y + 2]))
                     {   
-                        // emitParams.position = tiles[x,y].transform.position;
-                        // explosion.Emit(emitParams, 1);
-                        // emitParams.position = tiles[x, y + 1].transform.position;
-                        // explosion.Emit(emitParams, 1);
-                        // emitParams.position = tiles[x, y + 2].transform.position;
-                        // explosion.Emit(emitParams, 1);
                         explosion1.transform.position = tiles[x, y].transform.position;
                         explosion1.Play();
                         explosion2.transform.position = tiles[x, y + 1].transform.position;
@@ -226,41 +199,4 @@ public class GridManager : MonoBehaviour
         }
         return "";
     }
-
-    /* void MovePlayer(){
-        int hozMove = (int) Input.GetAxisRaw("Horizontal");
-        int verMove = (int) Input.GetAxisRaw("Vertical");
-        if (hozMove != 0)
-            verMove = 0;
-        if (verMove != 0)
-            hozMove = 0;
-        int newXPos = playerScript.xPos - hozMove;
-        int newYPos = playerScript.yPos - verMove;
-
-        if (newXPos < GridManager.WIDTH &&
-            newXPos >= 0 &&
-            newYPos < GridManager.HEIGHT &&
-            newYPos >= 0 &&
-            (hozMove != 0 ||
-            verMove != 0))
-        {
-            //Get the tile that needs to swap with the player and save its position
-            GameObject tileToSwap = tiles[newXPos, newYPos];
-            //Debug.Log(tileToSwap);
-            Vector2 newPosition = tileToSwap.transform.localPosition;
-        
-            //Swap the locations of the two objects in the game space
-            tileToSwap.transform.localPosition = playerScript.gameObject.transform.localPosition;
-            playerScript.gameObject.transform.localPosition = newPosition;
-
-            //Swap the two objects in the 2D array
-            tiles[newXPos, newYPos] = playerScript.gameObject;
-            tiles[playerScript.xPos, playerScript.yPos] = tileToSwap;
-
-            //Update the x position and y position of the player.
-            playerScript.xPos -= hozMove;
-            playerScript.yPos -= verMove;
-            //playerScript.gameObject.SendMessage("decrementTurns");
-        }
-    } */
 }
