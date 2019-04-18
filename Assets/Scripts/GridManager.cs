@@ -71,37 +71,18 @@ public class GridManager : MonoBehaviour
     
     void Update()
     {
-<<<<<<< HEAD
-        // if (slideLerp < 0 && !Repopulate() && HasMatch()){
-        //     RemoveMatches();
-        // }
-        // else if (slideLerp >= 0)
-        // {
-        //     slideLerp += Time.deltaTime / lerpSpeed;
-        //     // Debug.Log(Time.deltaTime + " " + slideLerp + " Lerp speed: " + lerpSpeed);
-
-        //     if (slideLerp >= 1)
-        //         slideLerp = -1;
-        // }
-        // // else if (Input.anyKeyDown){
-        // //     MovePlayer();
-        // // }
-        // else if (playerScript.turnsRemaining == 0)
-        //     playerScript.gameObject.SendMessage("EndGame");
-=======
         if (slideLerp < 0 && !Repopulate() && HasMatch()){
             RemoveMatches();
         }
         else if (slideLerp >= 0)
         {
             slideLerp += Time.deltaTime / lerpSpeed;
-            Debug.Log(slideLerp);
+            //Debug.Log(slideLerp);
             // Debug.Log(Time.deltaTime + " " + slideLerp + " Lerp speed: " + lerpSpeed);
 
             if (slideLerp >= 1)
                 slideLerp = -1;
         }
->>>>>>> 78f64690a527599ed4d8fce6ad804566e0d6d691
     }
     //Hasmatch returns an object that has a matching object vertically or horizontally
     public TileScript HasMatch(){
@@ -132,13 +113,13 @@ public class GridManager : MonoBehaviour
                         explosion2.Play();
                         explosion3.transform.position = tiles[x + 2, y].transform.position;
                         explosion3.Play();
-                        score += 3;
+                        score += 1;
                         //Debug.Log("Horizontal Match " + x + " " + y);
                         Destroy(tiles[x, y]);
                         Destroy(tiles[x + 1, y]);
                         Destroy(tiles[x + 2, y]);
                         scoreText.text = "SCORE: " + score;
-                        playerScript.resetTurns(6);
+                        //playerScript.resetTurns(6);
                     }
                     if (y < HEIGHT - 2 && temp.IsMatch(tiles[x, y + 1], tiles[x, y + 2]))
                     {   
@@ -148,7 +129,7 @@ public class GridManager : MonoBehaviour
                         explosion2.Play();
                         explosion3.transform.position = tiles[x, y + 2].transform.position;
                         explosion3.Play();
-                        score += 3;
+                        score += 1;
                         //Debug.Log("Vertical Match " + x + " " + y);
                         Destroy(tiles[x, y]);
                         Destroy(tiles[x, y + 1]);
@@ -181,7 +162,7 @@ public class GridManager : MonoBehaviour
 
                     }
                     else {
-                        slideLerp = 0;
+                        slideLerp = 0.0f;
                         tiles[x, y] = tiles[x, y - 1];
                         TileScript tileScript = tiles[x, y].GetComponent<TileScript>();
                         if (tileScript != null){

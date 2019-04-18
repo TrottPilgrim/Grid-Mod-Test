@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 3d76fa85a13a7954a8aa3e79fd4e83f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,9 +94,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   tileColors:
-  - {fileID: 21300000, guid: 04df5df6fc2e6f543b98ec69a44159d0, type: 3}
-  - {fileID: 21300000, guid: ee5366e5f6690f74fa76a9aaa79f5288, type: 3}
-  - {fileID: 21300000, guid: 4f86b899ef1b3d94388fccf8b534cef8, type: 3}
-  - {fileID: 21300000, guid: f12df2b4964c76f4b9900c54d46d5d42, type: 3}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.96, g: 0.63, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0.65, g: 0, b: 0.96, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  plantSprites:
+  - {fileID: 21300000, guid: 3d76fa85a13a7954a8aa3e79fd4e83f2, type: 3}
+  - {fileID: 21300000, guid: 0c1be166d040bdb469df621b30ff9191, type: 3}
   startPosition: {x: 0, y: 0, z: 0}
   destPosition: {x: 0, y: 0, z: 0}

@@ -5,21 +5,25 @@ using UnityEngine;
 public class TileScript : MonoBehaviour
 {
     public int type;
-    /* public Color[] tileColors = 
+    public Color[] tileColors = 
     {
         Color.red,
         new Color(0.96f, 0.63f, 0f, 1.0f), // Orange
         Color.yellow,
         Color.green,
         Color.blue,
-        new Color(0.65f, 0f, 0.96f, 1.0f) // Violet
-    }; */
+        new Color(0.65f, 0f, 0.96f, 1.0f), // Violet
+        Color.white,
+        Color.gray
+    };
 
-    public Sprite[] tileColors;
+    // public Sprite[] tileColors;
+    public Sprite[] plantSprites;
 
     public Vector3 startPosition;
     public Vector3 destPosition;
     private bool inSlide = false;
+    private bool isSlerp = false;
 
     void Update(){
         if (inSlide){
@@ -27,7 +31,12 @@ public class TileScript : MonoBehaviour
             {
                 transform.localPosition = destPosition;
                 inSlide = false;
-            }else
+            }
+            else if (isSlerp)
+            {
+                transform.localPosition = Vector3.Slerp(startPosition, destPosition, GridManager.slideLerp);
+            }
+            else
             {
                 transform.localPosition = Vector3.Lerp(startPosition, destPosition, GridManager.slideLerp);
             }
@@ -37,7 +46,8 @@ public class TileScript : MonoBehaviour
         type = rand;
         //GetComponent<SpriteRenderer>().sprite = tileSprites[type];
         if (rand >= 0)
-            GetComponent<SpriteRenderer>().sprite = tileColors[type];
+            GetComponent<SpriteRenderer>().color = tileColors[type];
+            GetComponent<SpriteRenderer>().sprite = plantSprites[Random.Range(0, plantSprites.Length)];
     }
 
     public bool IsMatch(GameObject gameObject1, GameObject gameObject2){
@@ -53,5 +63,10 @@ public class TileScript : MonoBehaviour
         startPosition = transform.localPosition;
         destPosition = newDestPos;
         //this.gameObject.name = this.gameObject.name + " " + destPosition.x + " " + destPosition.y + "|";
+    }
+
+    public void SetupSlerp(Vector2 newDestPos){
+        SetupSlide(newDestPos);
+
     }
 }

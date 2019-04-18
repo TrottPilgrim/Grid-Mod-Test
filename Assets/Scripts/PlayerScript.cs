@@ -10,12 +10,16 @@ public class PlayerScript : MonoBehaviour
     //public int xPos, yPos;
     public Vector2 playerPos;
     public GridManager gm;
+
+    public Vector3 startPosition;
+    public Vector3 destPosition;
+    private bool inSlide = false;
     void Start()
     {
         // This is probably garbage
         gm = GameObject.Find("GameManager").GetComponent<GridManager>();
         //turnsText = this.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMesh>();
-        resetTurns(100);
+        //resetTurns(100);
     }
 
     void Update ()
@@ -37,22 +41,27 @@ public class PlayerScript : MonoBehaviour
             {
                 Move(-1, 0);
             }
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-<<<<<<< HEAD
-                //Debug.Log("hi");
-                Rotate();
-=======
-                // Debug.Log("hi");
-                RotateCW();
-            }
             if (Input.GetKeyDown(KeyCode.X))
             {
                 // Debug.Log("hi");
+                RotateCW();
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                // Debug.Log("hi");
                 RotateCCW();
->>>>>>> 78f64690a527599ed4d8fce6ad804566e0d6d691
             }
         }
+        if (inSlide){
+                if (GridManager.slideLerp < 0)
+                {
+                    transform.localPosition = destPosition;
+                    inSlide = false;
+                }else
+                {
+                    transform.localPosition = Vector3.Lerp(startPosition, destPosition, GridManager.slideLerp);
+                }
+            }
     }
     
     void Move (int x, int y)
@@ -66,15 +75,18 @@ public class PlayerScript : MonoBehaviour
         {
             playerPos = newLoc;
             // Debug.Log("new log" + newLoc.x + " " + newLoc.y);
-            Vector2 newLocPos = new Vector2(GridManager.WIDTH - newLoc.x - GridManager.xOffset, GridManager.HEIGHT - newLoc.y - GridManager.yOffset);
-            this.transform.localPosition = newLocPos;
+            //Vector2 newLocPos = new Vector2(GridManager.WIDTH - newLoc.x - GridManager.xOffset, GridManager.HEIGHT - newLoc.y - GridManager.yOffset);
+            //this.transform.localPosition = newLocPos;
+            GridManager.slideLerp = Mathf.Sin(0.5f + 0.5f * Time.deltaTime);
+            SetupSlide(GridManager.tiles[(int) newLoc.x, (int) newLoc.y].transform.localPosition);
         }
     }
 
-    public void resetTurns(int i)
-    {
-        turnsRemaining = i;
-        //turnsText.text = "" + turnsRemaining;
+    public void SetupSlide(Vector2 newDestPos){
+        inSlide = true;
+        startPosition = transform.localPosition;
+        destPosition = newDestPos;
+        //this.gameObject.name = this.gameObject.name + " " + destPosition.x + " " + destPosition.y + "|";
     }
 
     void RotateCW()
@@ -92,20 +104,6 @@ public class PlayerScript : MonoBehaviour
          * (1, 1) <- (0, 1)
          * (0, 1) <- (0, 0)
          */
-<<<<<<< HEAD
-        Debug.Log("" + tempX + "," + tempY + " swaps with " + (tempX + 1) + "," + tempY);
-        gm.tiles[tempX, tempY].transform.localPosition = gm.tiles[tempX + 1, tempY].transform.localPosition;
-        gm.tiles[tempX, tempY] = gm.tiles[tempX + 1, tempY];
-        
-        gm.tiles[tempX + 1, tempY].transform.localPosition = gm.tiles[tempX + 1, tempY + 1].transform.localPosition;
-        gm.tiles[tempX + 1, tempY] = gm.tiles[tempX + 1, tempY + 1];
-        
-        gm.tiles[tempX + 1, tempY + 1].transform.localPosition = gm.tiles[tempX, tempY + 1].transform.localPosition;
-        gm.tiles[tempX + 1, tempY + 1] = gm.tiles[tempX, tempY + 1];
-        
-        gm.tiles[tempX, tempY + 1].transform.localPosition = tempPos;
-        gm.tiles[tempX, tempY + 1] = temp;
-=======
 
         // GridManager.tiles[tempX, tempY].transform.localPosition = GridManager.tiles[tempX + 1, tempY].transform.localPosition;
         // GridManager.tiles[tempX + 1, tempY].transform.localPosition = GridManager.tiles[tempX + 1, tempY + 1].transform.localPosition;
@@ -151,7 +149,6 @@ public class PlayerScript : MonoBehaviour
 
         
         //gm.ToString();
->>>>>>> 78f64690a527599ed4d8fce6ad804566e0d6d691
 
 
     }
@@ -185,20 +182,20 @@ public class PlayerScript : MonoBehaviour
         TileScript ts3 = g3.GetComponent<TileScript>();
         TileScript ts4 = g4.GetComponent<TileScript>();
         Vector2 temp = g1.transform.localPosition;
-        GridManager.slideLerp = 0.3f;
+        GridManager.slideLerp = 0.2f;
         if (string.Equals(d, "cw"))
         {
-            ts1.SetupSlide(g2.transform.localPosition);
-            ts2.SetupSlide(g3.transform.localPosition);
-            ts3.SetupSlide(g4.transform.localPosition);
-            ts4.SetupSlide(temp);
+            ts1.SetupSlerp(g2.transform.localPosition);
+            ts2.SetupSlerp(g3.transform.localPosition);
+            ts3.SetupSlerp(g4.transform.localPosition);
+            ts4.SetupSlerp(temp);
         }
         else
         {
-            ts1.SetupSlide(g4.transform.localPosition);
-            ts2.SetupSlide(temp);
-            ts3.SetupSlide(g2.transform.localPosition);
-            ts4.SetupSlide(g3.transform.localPosition);
+            ts1.SetupSlerp(g4.transform.localPosition);
+            ts2.SetupSlerp(temp);
+            ts3.SetupSlerp(g2.transform.localPosition);
+            ts4.SetupSlerp(g3.transform.localPosition);
         }
         //gm.ToString();
     }
