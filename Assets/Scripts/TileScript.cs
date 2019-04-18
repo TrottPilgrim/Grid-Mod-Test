@@ -16,6 +16,12 @@ public class TileScript : MonoBehaviour
         Color.white,
         Color.gray
     };
+    void Awake()
+    {
+        for (int q = 0; q < tileColors.Length; q++){
+            tileColors[q] = new Color(0.5f, 0.5f, 0.5f, 1.0f) + 0.5f * tileColors[q];
+        }
+    }
 
     // public Sprite[] tileColors;
     public Sprite[] plantSprites;
