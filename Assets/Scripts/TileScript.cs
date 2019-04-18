@@ -17,7 +17,8 @@ public class TileScript : MonoBehaviour
         Color.gray
     };
     void Awake()
-    {
+    {   
+        //This does some math on the colors, effectively makes them more pastel-y
         for (int q = 0; q < tileColors.Length; q++){
             tileColors[q] = new Color(0.5f, 0.5f, 0.5f, 1.0f) + 0.5f * tileColors[q];
         }
@@ -37,6 +38,7 @@ public class TileScript : MonoBehaviour
             {
                 transform.localPosition = destPosition;
                 inSlide = false;
+                transform.GetChild(0).SendMessage("BeginContact");
             }
             else if (isSlerp)
             {

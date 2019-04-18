@@ -119,6 +119,7 @@ public class GridManager : MonoBehaviour
                         Destroy(tiles[x + 1, y]);
                         Destroy(tiles[x + 2, y]);
                         scoreText.text = "SCORE: " + score;
+                        transform.GetChild(0).SendMessage("BeginContact");
                         //playerScript.resetTurns(6);
                     }
                     if (y < HEIGHT - 2 && temp.IsMatch(tiles[x, y + 1], tiles[x, y + 2]))
@@ -135,6 +136,7 @@ public class GridManager : MonoBehaviour
                         Destroy(tiles[x, y + 1]);
                         Destroy(tiles[x, y + 2]);
                         scoreText.text = "SCORE: " + score;
+                        transform.GetChild(0).SendMessage("BeginContact");
                         //playerScript.resetTurns(6);
                     }
                 }
